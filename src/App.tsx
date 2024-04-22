@@ -12,9 +12,11 @@ export type RawDataBlogPost = {
 
 function App() {
   const [fetchedPosts, setFetchedPosts] = useState<BlogPost[]>();
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setIsFetching(true);
       const data = await get('https://jsonplaceholder.typicode.com/posts');
 
       const blogPosts: BlogPost[] = data.map((rawPost) => {
@@ -25,6 +27,7 @@ function App() {
         };
       });
 
+      setIsFetching(false);
       setFetchedPosts(blogPosts);
     };
 
@@ -35,6 +38,10 @@ function App() {
 
   if (fetchedPosts) {
     content = <BlogPosts posts={fetchedPosts} />;
+  }
+
+  if (isFetching) {
+    content = <p className='lodaing-fallback'>Fetching posts...</p>;
   }
 
   return (

@@ -1,3 +1,5 @@
+import { RawDataBlogPost } from '../App';
+
 export const get = async (url: string) => {
   const response = await fetch(url);
 
@@ -5,5 +7,6 @@ export const get = async (url: string) => {
     throw new Error('Failed to fetch data');
   }
 
-  const data = (await response.json()) as unknown;
+  const data = (await response.json()) as RawDataBlogPost[];
+  return data;
 };
